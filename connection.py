@@ -4,10 +4,14 @@ import discord
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('MTI1NTYwODk3NzY1NjY0NzcxMA.GUi3S1.xfC4C2sd3znhvCKK8KaFF4B4TbH3q6SAxPXxYw')
+TOKEN = os.getenv('TOKEN')
+
+#intents creation -- set to default for now until I figure out what they actually do
+intents = discord.Intents.default()
+intents.members = True
 
 #client creation
-client = discord.Client()
+client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
