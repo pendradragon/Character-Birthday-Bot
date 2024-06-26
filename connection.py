@@ -8,7 +8,6 @@ TOKEN = os.getenv('TOKEN')
 
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
-intents.members = True
 
 #client creation
 client = discord.Client(intents=intents)
