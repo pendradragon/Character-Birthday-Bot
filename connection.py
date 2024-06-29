@@ -11,6 +11,10 @@ intents = discord.Intents.default()
 
 #client creation
 client = discord.Client(intents=intents)
+guild = discord.guild.__name__
+
+#will be referenced in the commands portion of the program
+serverDict = dict()
 
 @client.event
 async def on_ready():
