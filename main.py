@@ -5,38 +5,30 @@ from dotenv import load_dotenv
 
 from discord.ext import commands
 
+#commands code imports
+from dictCommands import dictBasics
+
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
 
-#for every instance of the bot
-client = discord.Client(intents=intents)
-guild = discord.guild.__name__
-bot = commands.Bot(command_prefix="c!")
-serverDict = dict()
+class base:
+    client = discord.Client(intents=intents)
+    guild = discord.guild.__name__
+    bot = commands.Bot(command_prefix="c!")
+    serverDict = dict()
 
-#Bot commands:
+#bot commands from the dictCommands file
+@base.bot.command(name = "add")
+async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Insert your characters name"), arg2:str = commands.parameter(default = "Your character's date of birth", description = "Insert your character's date of birth in the format <month (spelt) date (number)")):
+    dictBasics.add(arg1, arg2)
 
-#adds to the list of birthdays
-@bot.command(name="add")
-async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Your character's name."), arg2:str = commands.parameter(default = "Character birthday", description = "Your character's birthday in the format <month (spelt) date (number)")):
-    if arg1 in serverDict:
-        print(arg1 + " is already in the list of birthdays")
-    else:
-        serverDict[arg1]=arg2
-        print(arg1 + " (born on "+ arg2 + ") was added to the birthday list!")
-
-#remove
-@bot.command(name='remove')
-async def remove(ctx, arg1:str = commands.parameter(defualt = "Character name", description=None)):
-    if arg1 not in serverDict:
-        print(arg1 + " is not in our birthday logs")
-    else:
-        serverDict.pop(arg1)
-        print(arg1 + " was removed from the birthday logs")
+@base.bot.command(name = "remove")
+async def remove(ctx, arg1:str = commands.parameter(default= "Character name", description="The name of the character you want to remove from the birthday logs")):
+    dictBasics.remove(arg1)
 
 
 #runs the bot
-client.run(TOKEN)
+base.client.run(TOKEN)
