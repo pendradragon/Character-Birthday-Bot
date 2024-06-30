@@ -17,7 +17,7 @@ guild = discord.guild.__name__
 bot = commands.Bot(command_prefix="c!")
 serverDict = dict()
 
-#Bot commands
+#Bot commands:
 
 #adds to the list of birthdays
 @bot.command(name="add")
@@ -27,6 +27,15 @@ async def add(ctx, arg1:str = commands.parameter(default="Character name", descr
     else:
         serverDict[arg1]=arg2
         print(arg1 + " (born on "+ arg2 + ") was added to the birthday list!")
+
+#remove
+@bot.command(name='remove')
+async def remove(ctx, arg1:str = commands.parameter(defualt = "Character name", description=None)):
+    if arg1 not in serverDict:
+        print(arg1 + " is not in our birthday logs")
+    else:
+        serverDict.pop(arg1)
+        print(arg1 + " was removed from the birthday logs")
 
 
 #runs the bot
