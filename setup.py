@@ -14,7 +14,7 @@ intents = discord.Intents.default()
 #for every instance of the bot
 client = discord.Client(intents=intents)
 guild = discord.guild.__name__
-bot = commands.Bot(command_prefix="/")
+bot = commands.Bot(command_prefix="c!")
 serverDict = dict()
 
 #Bot commands
