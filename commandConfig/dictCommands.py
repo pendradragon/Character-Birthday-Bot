@@ -18,4 +18,9 @@ class dictBasics:
             base.serverDict.pop(CharacterName)
             print(CharacterName + " was removed from the birthday logs")
 
-    
+    #find DOB function
+    def findDOB(CharacterName):
+        if CharacterName not in base.serverDict:
+            print(CharacterName + " could not be found in the birthday logs")
+        else:
+            print(CharacterName + " was born on " + base.serverDict[CharacterName])

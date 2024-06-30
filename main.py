@@ -29,6 +29,10 @@ async def add(ctx, arg1:str = commands.parameter(default="Character name", descr
 async def remove(ctx, arg1:str = commands.parameter(default= "Character name", description="The name of the character you want to remove from the birthday logs")):
     dictBasics.remove(arg1)
 
+@base.bot.command(name="findDOB")
+async def findDOB(ctx, arg1:str = commands.parameter(default = "Character name", description="Finds the date of the birth of the provided character")):
+    dictBasics.findDOB(arg1)
+
 
 #runs the bot
 base.client.run(TOKEN)
