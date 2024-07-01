@@ -20,6 +20,13 @@ class base:
     bot = commands.Bot(command_prefix="c!")
     serverDict = dict()
 
+    bDayMessage = str()
+
+#basic setup commands
+@base.bot.command(name="setMessage")
+async def setMessage(ctx, arg1:str = commands.parameter(default = "The message that is sent every time it is a character's birthday.", description = None)):
+    base.bDayMessage = arg1
+
 #bot commands from the dictCommands file
 @base.bot.command(name = "add")
 async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Insert your characters name"), arg2:str = commands.parameter(default = "Your character's date of birth", description = "Insert your character's date of birth in the format <month (spelt) date (number)")):
