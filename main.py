@@ -14,6 +14,7 @@ TOKEN = os.getenv('TOKEN')
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
 
+#used universally throughout the bot
 class base:
     client = discord.Client(intents=intents)
     guild = discord.guild.__name__
@@ -27,6 +28,14 @@ class base:
 async def setMessage(ctx, arg1:str = commands.parameter(default = "The message that is sent every time it is a character's birthday.", description = None)):
     base.bDayMessage = arg1
 
+@base.bot.command(name = "help")
+async def help(ctx):
+    print("# Character Birthday Bot Help #" + "\n" +
+          "setMessage -- sets the message that is sent every time it is a character's birthday" + "\n"+
+          "add -- adds a character to the bot's birthday logs" + "\n" +
+          "remove -- removes a character from the bot's birthday logs" + "\n" +
+          "findDOB -- finds the character with the entered date of birth")
+    
 #bot commands from the dictCommands file
 @base.bot.command(name = "add")
 async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Insert your characters name"), arg2:str = commands.parameter(default = "Your character's date of birth", description = "Insert your character's date of birth in the format <month (spelt) date (number)")):
