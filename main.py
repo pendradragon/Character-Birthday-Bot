@@ -38,7 +38,7 @@ async def help(ctx):
     
 #bot commands from the dictCommands file
 @base.bot.command(name = "add")
-async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Insert your characters name"), arg2:str = commands.parameter(default = "Your character's date of birth", description = "Insert your character's date of birth in the format <month (spelt) date (number)")):
+async def add(ctx, arg1:str = commands.parameter(default="Character name", description="Insert your characters name"), arg2:str = commands.parameter(default = "Your character's date of birth", description = "Insert your character's date of birth in the format MM-DD")):
     dictBasics.add(arg1, arg2)
 
 @base.bot.command(name = "remove")
