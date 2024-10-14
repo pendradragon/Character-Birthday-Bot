@@ -1,23 +1,8 @@
-from time import sleep
-from datetime import datetime, timedelta
+from datetime import datetime
 
-#local importation
-from main import base
-from dictCommands import dictBasics
+from birthdayData import birthdays
+from birthdayData import message
 
-def printString(date):
-    character = dictBasics.calendarDict.keys()[dictBasics.calendarDict.values().index(date)]
-    print()
+async def check_birthdays(bot):
+    # checks if today's date matches any birthday in the directory
 
-class looper:
-    sleepTime = 86400
-
-    def checkDays():
-        while True:
-            today = datetime.now()
-            for possibleDays in dictBasics.calendarDict.values():
-                if possibleDays == today:
-                    print(printString((possibleDays)))
-                    break
-            
-            sleep(looper.sleepTime)
