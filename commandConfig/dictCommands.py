@@ -8,4 +8,10 @@ def add(name, date):
 def remove(name):
     if name in birthdays:
         del birthdays[name]
-        
+
+#searching commands
+def getDOB(character):
+    return birthdays.get(character)
+
+def get_character_by_DOB(date):
+    return [name for name, dob in birthdays.items() if dob == date]
