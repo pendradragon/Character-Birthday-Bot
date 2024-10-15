@@ -31,6 +31,7 @@ async def on_ready():
     birthday_check.start() #starts the checking loop
 
 #Command to add characters to the dictionary
+@bot.command()
 async def add(ctx, name: str, date: str):
     #DOBS should be in the format should be in the format MM-DD
     try:
@@ -41,3 +42,12 @@ async def add(ctx, name: str, date: str):
     except ValueError:
         await ctx.send(f"Invalid date format. Please use MM-DD.")
         
+#Command to remove a character from the dictionary
+@bot.command()
+async def remove(ctx, name: str):
+    if name in birthdays:
+        remove_character(name)
+        await ctx.send(f"Removed {name} from the list.")
+
+    else:
+        await ctx.send(f"{name} is not in the list")
