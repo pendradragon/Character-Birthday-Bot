@@ -60,4 +60,19 @@ async def findDOB(ctx, name:str):
         await ctx.send(f"{name}'s birthday is not on {dob}.")
     else: #if not in the list
         await ctx.send(f"No birthday found for {name} found in the list.")
+
+#Command to find characters by their DOB
+@bot.command()
+async def findByDOB(ctx, date: str):
+    try: #tries all characters with the specified DOB -- run if in the format MM-DD
+        datetime.strptime(date, '%m-%d')
+        characters = get_character_by_DOB(date)
+
+        if characters: #if there are character(s) found in the list with the desired DOB
+            await ctx.send(f"The following characters have a birthday on {date}: {','.join(characters)}.")
+
+        else: #if there are no characters with the specified DOB
+            await ctx.send(f"No characters in the list were found with a birthday on {date}.")
         
+    except ValueError: #if the date is not in the correct format
+        await ctx.send("Invalid date format. Please use MM-DD.")
