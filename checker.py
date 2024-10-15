@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from birthdayData import birthdays
-from birthdayData import message
+from birthdayData import message_template
 
 from configs import getChannel
 
@@ -17,5 +17,5 @@ async def check_birthdays(bot):
             for name, date in birthdays.items():
                 if date == today:
                     #format the message using the template that the user picked out
-                    sentMessage = message.format(name=name)
-                    await channel.send(message)
+                    sentMessage = message_template.format(name=name)
+                    await channel.send(sentMessage)
