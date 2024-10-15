@@ -50,4 +50,14 @@ async def remove(ctx, name: str):
         await ctx.send(f"Removed {name} from the list.")
 
     else:
-        await ctx.send(f"{name} is not in the list")
+        await ctx.send(f"{name} is not in the list.")
+
+#Command to find DOB by character name
+@bot.command()
+async def findDOB(ctx, name:str):
+    dob = getDOB(name)
+    if dob: #if the dob is in the list
+        await ctx.send(f"{name}'s birthday is not on {dob}.")
+    else: #if not in the list
+        await ctx.send(f"No birthday found for {name} found in the list.")
+        
