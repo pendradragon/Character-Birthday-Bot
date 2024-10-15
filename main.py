@@ -101,3 +101,9 @@ async def setChannel(ctx):
     setChannel(ctx.channel.id)
     await ctx.send(f"Birthday messages will now be sent to {ctx.channel.mention}.")
 
+@tasks.loop(hours=24) #run once per day
+async def birthday_check():
+    await check_birthdays(bot)
+
+#starting the bot
+bot.run(TOKEN)
