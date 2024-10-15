@@ -1,11 +1,11 @@
 from birthdayData import birthdays  
 
 #command to add characters to the global dictionary
-def add(name, date):
+def add_character(name, date):
     birthdays[name] = date
 
 #command to remove the desired command from the global dictionary
-def remove(name):
+def remove_character(name):
     if name in birthdays:
         del birthdays[name]
 
