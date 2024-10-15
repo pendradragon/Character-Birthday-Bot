@@ -76,3 +76,11 @@ async def findByDOB(ctx, date: str):
         
     except ValueError: #if the date is not in the correct format
         await ctx.send("Invalid date format. Please use MM-DD.")
+
+#Command to set the preferred channel
+@bot.command()
+async def setChannel(ctx):
+    #sets the CURRENT channel as the preferred channel for birthday messages
+    setChannel(ctx.channel.id)
+    await ctx.send(f"Birthday messages will now be sent to {ctx.channel.mention}.")
+
