@@ -77,6 +77,23 @@ async def findByDOB(ctx, date: str):
     except ValueError: #if the date is not in the correct format
         await ctx.send("Invalid date format. Please use MM-DD.")
 
+#command to send a custom birthday message template
+@bot.command()
+async def setMessage(ctx, *, template: str):
+    #defaults
+    if template.lower() == "default":
+        default_message = "🎉 Today is {name}'s birthday! 🎉"
+        setMessage(default_message)
+
+    #custom message
+    elif "{name}" in template:
+        setMessage(template)
+        await ctx.send("Custom birthday message as been set.")  
+    
+    #incorrect format
+    else:
+        await ctx.send("Invalid template. \n\t Hint: make sure to include '{name}' for where the character's name will be in the template.")
+
 #Command to set the preferred channel
 @bot.command()
 async def setChannel(ctx):
