@@ -1,4 +1,4 @@
-FROM python:3.9-apline
+FROM python:3.9
 
 #Setting the working directory
 WORKDIR /usr/src/app
