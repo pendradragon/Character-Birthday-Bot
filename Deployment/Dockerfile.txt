@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-apline
 
 #Setting the working directory
 WORKDIR /usr/src/app
@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 #Copying the rest of the bot's code
 COPY . . 
+
+#Allowing different traffic on different ports
+EXPOSE 8080
 
 #Running the bot
 CMD ["python", "C:\Users\megan\OneDrive\Documents\Project\cbb\Character-Birthday-Bot\main.py"]
