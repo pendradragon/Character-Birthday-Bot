@@ -4,4 +4,4 @@ services:
     build: . 
     ports: "8080:8080" #we love exposing ports
 
-  command: python main.py
+  command: ["python", "main.py"]
