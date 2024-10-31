@@ -1,4 +1,4 @@
 discord.py
 datetime
-flask 
+dotenv
 requests
