@@ -1,9 +1,0 @@
-version: "3.8"
-services:
-  discord-bot:
-    build: 
-      context: .  # This should be the directory where the Dockerfile is located
-      dockerfile: Dockerfile.txt  # Specify if the filename is different
-    ports:
-      - "8080:8080"  
-    command: ["python", "main.py"]
