@@ -17,7 +17,7 @@ from birthdayData import birthdays, setMessage, getMessage
 from configs import setChannel, getChannel
 
 load_dotenv()
-TOKEN = os.getenv('TOKEN')
+TOKEN = TOKEN
 
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
