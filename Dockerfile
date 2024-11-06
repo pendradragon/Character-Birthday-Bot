@@ -1,21 +1,15 @@
 FROM python:3.9
 
-#Setting the working directory
 WORKDIR /usr/src/app
 
-#Copying the requirements file into the working directory
-COPY requirements.txt ./
+# Copy requirements and upgrade dependency tools
+COPY requirements.txt . 
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-#Installing all of the dependencies
-RUN pip install --upgrade pip
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-#Copying the rest of the bot's code
-COPY . . 
+COPY . .
 
-#Allowing different traffic on different ports
-EXPOSE 8080
+CMD ["python", "main.py"]
 
-#Running the bot
-CMD ["python", "C:\Users\megan\OneDrive\Documents\Project\cbb\Character-Birthday-Bot\main.py"]
