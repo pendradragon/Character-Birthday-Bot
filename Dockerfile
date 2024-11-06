@@ -8,7 +8,8 @@ COPY requirements.txt ./
 
 #Installing all of the dependencies
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir --verbose -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install -r requirements.txt
 
 #Copying the rest of the bot's code
 COPY . . 
