@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 
 #Installing all of the dependencies
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 #Copying the rest of the bot's code
