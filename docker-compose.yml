@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 version: "3.8"
 services:
   discord-bot:
@@ -10,14 +9,3 @@ services:
     command: ["python", "main.py"]
     environment:
       - TOKEN=${TOKEN}
-=======
-version: "3.8"
-services:
-  discord-bot:
-    build: 
-      context: .  # This should be the directory where the Dockerfile is located
-      dockerfile: Dockerfile.txt  # Specify if the filename is different
-    ports:
-      - "8080:8080"  
-    command: ["python", "main.py"]
->>>>>>> 53d4ece532ca343afe7be1cc6413db669d91f2ce

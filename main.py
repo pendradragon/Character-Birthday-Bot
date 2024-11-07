@@ -6,11 +6,7 @@ import discord
 from discord.ext import commands, tasks
 
 #Security is wild
-<<<<<<< HEAD
 import os
-=======
-#from dotenv import load_dotenv
->>>>>>> 53d4ece532ca343afe7be1cc6413db669d91f2ce
 
 #Custom commands importing
 from dictCommands import add_character, remove_character, getDOB, get_character_by_DOB
@@ -21,11 +17,7 @@ from birthdayData import birthdays, setMessage, getMessage
 from configs import setChannel, getChannel
 
 #load_dotenv()
-<<<<<<< HEAD
 TOKEN = os.getenv("TOKEN")
-=======
-TOKEN = TOKEN
->>>>>>> 53d4ece532ca343afe7be1cc6413db669d91f2ce
 
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
