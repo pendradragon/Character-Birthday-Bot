@@ -18,4 +18,4 @@ async def check_birthdays(bot):
                 if date == today:
                     #format the message using the template that the user picked out
                     sentMessage = message_template.format(name=name)
-                    await channel.send(sentMessage)
+                    return sentMessage
