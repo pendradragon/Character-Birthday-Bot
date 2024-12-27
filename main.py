@@ -27,50 +27,54 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents = intents)
 
 #defining the bot's command tree for slash command adaptation
-class Help(commands.Cog):
+"""class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     #help command creation
     @app_commands.command(name = "help", description = "Lists available commands and description.")
     async def help_command(self, interaction: discord.Interaciton): #I am so HTML brained I'm going to format it like that
-            embed = discord.Embed(
-                title = "Help Menu"
-                description = "Available commands"
-                color = discord.Color.blue()
+        embed = discord.Embed(
+            title = "Help Menu"
+            description = "Available commands"
+            color = discord.Color.blue()
         )
         
-            embed.add_field(
-                name = "/help"
-                value = "Displays this menu."
-                inline = False
+        embed.add_field(
+            name = "/help"
+            value = "Displays this menu."
+            inline = False
         )
-            embed.add_field(
-                name = "/add <character name> <date of birth (MM-DD)>"
-                value = "Add a character to the birthday list."
-                inline = False
+        
+        embed.add_field(
+            name = "/add <character name> <date of birth (MM-DD)>"
+            value = "Add a character to the birthday list."
+            inline = False
         )
-            embed.add_field(
-                name = "/remove <character name>"
-                value = "Remove a character from the list."
-                inline = False
+            
+        embed.add_field(
+            name = "/remove <character name>"
+            value = "Remove a character from the list."
+            inline = False
         )
-            embed.add_field(
-                name = "/findDOB <character name>"
-                value = "Find the date of birth of a particular character."
-                inline = False
-        )    
-            embed.add_field(
-                name = "/findByDOB <date of birth>"
-                value = "Find the character with the specific birthday."
-                inline = False
-        )
+            
+        embed.add_field(
+            name = "/findDOB <character name>"
+            value = "Find the date of birth of a particular character."
+            inline = False
+            ) 
+             
+        embed.add_field(
+            name = "/findByDOB <date of birth>"
+            value = "Find the character with the specific birthday."
+            inline = False
+            )
 
         await interaction.response.send_message(embed=embed)
 
 #register the juicy cog
 async def setup(bot):
-        await bot.add_cog(Help(bot))
+        await bot.add_cog(Help(bot))"""
 
 @bot.event
 async def on_ready():
@@ -150,7 +154,7 @@ async def setChannel(ctx):
     await ctx.send(f"Birthday messages will now be sent to {ctx.channel.mention}.")
 
 @tasks.loop(hours=24) #run once per day
-async def birthday_check():
+async def birthday_check(ctx):
     today = datetime.now().strftime("%m-%d")
     messageChannel_ID = getChannel()
     messageChannel = bot.get_channel(messageChannel_ID)
@@ -160,7 +164,7 @@ async def birthday_check():
             return 
 
     #time for the actual loop
-    names = [name for name, bday in birthdays.items(), if bday == today]
+    names = [name for name, bday in birthdays.items() if bday == today]
 
     if names: #if there are names that need to be printed
         for name in names:
