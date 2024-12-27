@@ -3,6 +3,7 @@ from datetime import datetime
 
 #discord imports
 import discord
+from discord import app_commands
 from discord.ext import commands, tasks
 
 #Security is wild
@@ -25,10 +26,57 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents = intents)
 
+#defining the bot's command tree for slash command adaptation
+class Help(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    #help command creation
+    @app_commands.command(name = "help", description = "Lists available commands and description.")
+    async def help_command(self, interaction: discord.Interaciton): #I am so HTML brained I'm going to format it like that
+            embed = discord.Embed(
+                title = "Help Menu"
+                description = "Available commands"
+                color = discord.Color.blue()
+        )
+        
+            embed.add_field(
+                name = "/help"
+                value = "Displays this menu."
+                inline = False
+        )
+            embed.add_field(
+                name = "/add <character name> <date of birth (MM-DD)>"
+                value = "Add a character to the birthday list."
+                inline = False
+        )
+            embed.add_field(
+                name = "/remove <character name>"
+                value = "Remove a character from the list."
+                inline = False
+        )
+            embed.add_field(
+                name = "/findDOB <character name>"
+                value = "Find the date of birth of a particular character."
+                inline = False
+        )    
+            embed.add_field(
+                name = "/findByDOB <date of birth>"
+                value = "Find the character with the specific birthday."
+                inline = False
+        )
+
+        await interaction.response.send_message(embed=embed)
+
+#register the juicy cog
+async def setup(bot):
+        await bot.add_cog(Help(bot))
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
     birthday_check.start() #starts the checking loop
+    await bot.tree.sync() #register commands when the bot is ready
 
 #Command to add characters to the dictionary
 @bot.command()
