@@ -10,7 +10,7 @@ import os
 
 #Custom commands importing
 from dictCommands import add_character, remove_character, getDOB, get_character_by_DOB
-from checker import check_birthdays
+#from checker import check_birthdays
 
 #importing data be like
 from birthdayData import birthdays, setMessage, getMessage
@@ -103,7 +103,8 @@ async def setChannel(ctx):
 
 @tasks.loop(hours=24) #run once per day
 async def birthday_check():
-    await check_birthdays(bot)
+    today = datetime.now().strftime("%m-%d")
+    
 
 #starting the bot
 bot.run(TOKEN)
