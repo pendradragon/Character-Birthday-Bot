@@ -10,7 +10,7 @@ import os
 
 #Custom commands importing
 from dictCommands import add_character, remove_character, getDOB, get_character_by_DOB
-from checker import check_birthdays
+#from checker import check_birthdays
 
 #importing data be like
 from birthdayData import birthdays, setMessage, getMessage
@@ -103,7 +103,26 @@ async def setChannel(ctx):
 
 @tasks.loop(hours=24) #run once per day
 async def birthday_check():
-    await check_birthdays(bot)
+    today = datetime.now().strftime("%m-%d")
+    messageChannel_ID = getChannel()
+    messageChannel = bot.get_channel(messageChannel_ID)
+
+    if messageChannel is None:
+            await ctx.send(f'Channel ID {messageChannel_ID} is not found. Please set the channel you want to use with "!setChannel".')
+            return 
+
+    #time for the actual loop
+    names = [name for name, bday in birthdays.items(), if bday == today]
+
+    if names: #if there are names that need to be printed
+        for name in names:
+            custom_message = getMessage()
+            await ctx.send(custom_message.format(name=name))
+
+    else:
+        #for debugging purposes so ik if there is something wrong with it not runnning every 24 hours
+        await ctx.send(f"There are no birthdays today, {today}.")
+    
 
 #starting the bot
 bot.run(TOKEN)
