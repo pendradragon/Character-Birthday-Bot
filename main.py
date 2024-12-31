@@ -35,39 +35,39 @@ bot = commands.Bot(command_prefix='!', intents = intents)
     @app_commands.command(name = "help", description = "Lists available commands and description.")
     async def help_command(self, interaction: discord.Interaciton): #I am so HTML brained I'm going to format it like that
         embed = discord.Embed(
-            title = "Help Menu"
-            description = "Available commands"
-            color = discord.Color.blue()
+            title = "Help Menu",
+            description = "Available commands",
+            color = discord.Color.blue(),
         )
         
         embed.add_field(
-            name = "/help"
-            value = "Displays this menu."
+            name = "/help",
+            value = "Displays this menu.",
             inline = False
         )
         
         embed.add_field(
-            name = "/add <character name> <date of birth (MM-DD)>"
-            value = "Add a character to the birthday list."
-            inline = False
+            name = "/add <character name> <date of birth (MM-DD)>",
+            value = "Add a character to the birthday list.",
+            inline = False,
         )
             
         embed.add_field(
-            name = "/remove <character name>"
-            value = "Remove a character from the list."
-            inline = False
+            name = "/remove <character name>",
+            value = "Remove a character from the list.",
+            inline = False,
         )
             
         embed.add_field(
-            name = "/findDOB <character name>"
-            value = "Find the date of birth of a particular character."
-            inline = False
+            name = "/findDOB <character name>",
+            value = "Find the date of birth of a particular character.",
+            inline = False,
             ) 
              
         embed.add_field(
-            name = "/findByDOB <date of birth>"
-            value = "Find the character with the specific birthday."
-            inline = False
+            name = "/findByDOB <date of birth>",
+            value = "Find the character with the specific birthday.",
+            inline = False,
             )
 
         await interaction.response.send_message(embed=embed)
