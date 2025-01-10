@@ -6,9 +6,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
-#Security is wild
-import os
-
 #Custom commands importing
 from dictCommands import add_character, remove_character, getDOB, get_character_by_DOB
 #from checker import check_birthdays
@@ -22,7 +19,8 @@ TOKEN = os.getenv("TOKEN")
 
 #intents creation -- set to default for now until I figure out what they actually do
 intents = discord.Intents.default()
-intents.message_content = True
+intents.message_content = True #accessing message content
+intents.guild_messages = True #sending messages
 
 bot = commands.Bot(command_prefix='!', intents = intents)
 
@@ -80,7 +78,13 @@ async def setup(bot):
 async def on_ready():
     print(f'Logged in as {bot.user}')
     birthday_check.start() #starts the checking loop
-    await bot.tree.sync() #register commands when the bot is ready
+
+    #syncing the command tree
+    try: 
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} commands.")
+    except Exception as e:
+        print(f"Failed to sync commands. Error information: {e}.")
 
 #Command to add characters to the dictionary
 @bot.command()
