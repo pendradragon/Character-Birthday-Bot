@@ -1,21 +1,10 @@
-import os
-from datetime import datetime
-
-#discord imports
 import discord
 from discord import app_commands
 from discord.ext import commands, tasks
-
-#Security is wild
+from datetime import datetime, time 
+import json
 import os
-
-#Custom commands importing
-from dictCommands import add_character, remove_character, getDOB, get_character_by_DOB
-#from checker import check_birthdays
-
-#importing data be like
-from birthdayData import birthdays, setMessage, getMessage
-from configs import setChannel, getChannel
+import asyncio
 
 #load_dotenv()
 TOKEN = os.getenv("TOKEN")
