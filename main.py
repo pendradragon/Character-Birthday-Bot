@@ -15,155 +15,64 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents = intents)
 
-#defining the bot's command tree for slash command adaptation
-"""class Help(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+#The file that is being used to save DOBs
+DOB_FILE = "birthdays.json"
 
-    #help command creation
-    @app_commands.command(name = "help", description = "Lists available commands and description.")
-    async def help_command(self, interaction: discord.Interaciton): #I am so HTML brained I'm going to format it like that
-        embed = discord.Embed(
-            title = "Help Menu",
-            description = "Available commands",
-            color = discord.Color.blue(),
-        )
-        
-        embed.add_field(
-            name = "/help",
-            value = "Displays this menu.",
-            inline = False
-        )
-        
-        embed.add_field(
-            name = "/add <character name> <date of birth (MM-DD)>",
-            value = "Add a character to the birthday list.",
-            inline = False,
-        )
-            
-        embed.add_field(
-            name = "/remove <character name>",
-            value = "Remove a character from the list.",
-            inline = False,
-        )
-            
-        embed.add_field(
-            name = "/findDOB <character name>",
-            value = "Find the date of birth of a particular character.",
-            inline = False,
-            ) 
-             
-        embed.add_field(
-            name = "/findByDOB <date of birth>",
-            value = "Find the character with the specific birthday.",
-            inline = False,
-            )
+class BirthdayBot: 
+    def __init__(self):
+        self.birthdays = self.loadBirthdays()
 
-        await interaction.response.send_message(embed=embed)
+    def loadBirthdays(self):
+        #load the provided birthdays from the json file
+        if os.path.exists(DOB_FILE):
+                with open(DOB_FILE, 'r') as file: #opening the file with the read perms
+                    return json.load(file)
+        return {} #if there are no birthdays to return
 
-#register the juicy cog
-async def setup(bot):
-        await bot.add_cog(Help(bot))"""
 
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user}')
-    birthday_check.start() #starts the checking loop
-    await bot.tree.sync() #register commands when the bot is ready
+    def saveBirthdays(self):
+        """Saves the birthday that is provided by the user to the .json file
+            Not used as a command, rather it is used as a helper command that is used in the addBirthday command"""
+        with open(DOB_FILE, 'r') as file: 
+            json.dump(self.birthdays, file, indent=2)
 
-#Command to add characters to the dictionary
-@bot.command()
-async def add(ctx, name: str, date: str):
-    #DOBS should be in the format should be in the format MM-DD
-    try:
-        datetime.strptime(date, '%m-%d')
-        add_character(name, date)
-        await ctx.send(f"Added {name} with their birthday on {date}.")
+    def addBirthday(self, characterName, birth_date):
+        #Adds the character's birthday to the .json file so it can be looked through for later bot implementation 
+        try:
+            #Validate the date format
+            datetime.strftime(birth_date, '%m-%d')
+            self.birthdays[characterName] = birth_date
+            self.saveBirthdays()
+            return True #Should it be successful, the command will return true -- should return a message saying that the date was successfully saved
+        except ValueError: 
+                return False
 
-    except ValueError:
-        await ctx.send(f"Invalid date format. Please use MM-DD.")
-        
-#Command to remove a character from the dictionary
-@bot.command()
-async def remove(ctx, name: str):
-    if name in birthdays:
-        remove_character(name)
-        await ctx.send(f"Removed {name} from the list.")
+    def removeBirthday(self, characterName): 
+        if characterName in self.birthdays:
+            #if the character is in the birthday storage
+            del self.birthdays[characterName] 
+            self.saveBirthdays() #saving the deleting of the character's date
+            return True #later used for a message that is presented to the user
+        return False 
 
-    else:
-        await ctx.send(f"{name} is not in the list.")
+    def getTodaysBirthdays(self): 
+        """Used to go through the .json file for the current day's date
+            Not used as a command
+            Used as a helper command that will be used in the loop that will be run daily"""
 
-#Command to find DOB by character name
-@bot.command()
-async def findDOB(ctx, name:str):
-    dob = getDOB(name)
-    if dob: #if the dob is in the list
-        await ctx.send(f"{name}'s birthday is not on {dob}.")
-    else: #if not in the list
-        await ctx.send(f"No birthday found for {name} found in the list.")
+        #Getting the current date in the correct format so it can be compared against the dates in the .json file
+        today = datetime.now.strftime('%m-%d')
+        todaysBirthdays = []
 
-#Command to find characters by their DOB
-@bot.command()
-async def findByDOB(ctx, date: str):
-    try: #tries all characters with the specified DOB -- run if in the format MM-DD
-        datetime.strptime(date, '%m-%d')
-        characters = get_character_by_DOB(date)
+        #actual checking loop
+        for character, birthday in self.birthdays.item():
+            if birthday == today: 
+                todaysBirthdays.append(character) #appends the particular character's name 
 
-        if characters: #if there are character(s) found in the list with the desired DOB
-            await ctx.send(f"The following characters have a birthday on {date}: {','.join(characters)}.")
+        return todaysBirthdays
 
-        else: #if there are no characters with the specified DOB
-            await ctx.send(f"No characters in the list were found with a birthday on {date}.")
-        
-    except ValueError: #if the date is not in the correct format
-        await ctx.send("Invalid date format. Please use MM-DD.")
-
-#command to send a custom birthday message template
-@bot.command()
-async def setMessage(ctx, *, template: str):
-    #defaults
-    if template.lower() == "default":
-        default_message = "🎉 Today is {name}'s birthday! 🎉"
-        setMessage(default_message)
-
-    #custom message
-    elif "{name}" in template:
-        setMessage(template)
-        await ctx.send("Custom birthday message as been set.")  
-    
-    #incorrect format
-    else:
-        await ctx.send("Invalid template. \n\t Hint: make sure to include '{name}' for where the character's name will be in the template.")
-
-#Command to set the preferred channel
-@bot.command()
-async def setChannel(ctx):
-    #sets the CURRENT channel as the preferred channel for birthday messages
-    setChannel(ctx.channel.id)
-    await ctx.send(f"Birthday messages will now be sent to {ctx.channel.mention}.")
-
-@tasks.loop(hours=24) #run once per day
-async def birthday_check(ctx):
-    today = datetime.now().strftime("%m-%d")
-    messageChannel_ID = getChannel()
-    messageChannel = bot.get_channel(messageChannel_ID)
-
-    if messageChannel is None:
-            await ctx.send(f'Channel ID {messageChannel_ID} is not found. Please set the channel you want to use with "!setChannel".')
-            return 
-
-    #time for the actual loop
-    names = [name for name, bday in birthdays.items() if bday == today]
-
-    if names: #if there are names that need to be printed
-        for name in names:
-            custom_message = getMessage()
-            await ctx.send(custom_message.format(name=name))
-
-    else:
-        #for debugging purposes so ik if there is something wrong with it not runnning every 24 hours
-        await ctx.send(f"There are no birthdays today, {today}.")
-    
+#initalize the birthday manager 
+birthdayManager = BirthdayBot()
 
 #starting the bot
 bot.run(TOKEN)
